@@ -193,6 +193,16 @@
 }
 
 @media (max-width: 768px) {
+  .announcement a,
+  .brand,
+  .github-link {
+    min-height: 44px;
+  }
+  .footer-bottom a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
   .announcement {
     height: 44px;
     gap: 9px;
