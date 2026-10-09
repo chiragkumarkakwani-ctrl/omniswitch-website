@@ -4,6 +4,7 @@ import { dirname, extname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { gzipSync } from 'node:zlib'
+import { isSafePreviewPath } from './preview-path.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../dist')
 const { values } = parseArgs({
@@ -46,6 +47,11 @@ const server = createServer(async (request, response) => {
   try {
     path = decodeURIComponent(url.pathname)
   } catch {
+    response.writeHead(400)
+    response.end()
+    return
+  }
+  if (!isSafePreviewPath(path)) {
     response.writeHead(400)
     response.end()
     return
