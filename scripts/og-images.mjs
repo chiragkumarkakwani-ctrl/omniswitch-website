@@ -4,8 +4,15 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { Resvg } from '@resvg/resvg-js'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
-const { routes, notFoundRoute } = await import(pathToFileURL(resolve(root, 'dist/.server/entry-server.js')).href)
-const escape = (text) => text.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;')
+const { routes, notFoundRoute } = await import(
+  pathToFileURL(resolve(root, 'dist/.server/entry-server.js')).href
+)
+const escape = (text) =>
+  text
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
 function wrap(text, length = 32) {
   const lines = ['']
   for (const word of text.split(' ')) {
@@ -30,7 +37,11 @@ for (const route of [...routes, notFoundRoute]) {
     <text x="80" y="555" font-family="DejaVu Sans" font-size="18" fill="#a9a9b3">omniswitch.dev</text>
     <text x="1120" y="555" text-anchor="end" font-family="DejaVu Sans" font-size="15" fill="#a9a9b3">OPEN SOURCE · PUBLIC BETA</text>
   </svg>`
-  const image = new Resvg(svg, { font: { loadSystemFonts: true, defaultFontFamily: 'DejaVu Sans' } }).render().asPng()
+  const image = new Resvg(svg, {
+    font: { loadSystemFonts: true, defaultFontFamily: 'DejaVu Sans' },
+  })
+    .render()
+    .asPng()
   const filename = resolve(root, 'public', route.ogImage.slice(1))
   await mkdir(dirname(filename), { recursive: true })
   await writeFile(filename, image)

@@ -38,9 +38,18 @@
     }
   ],
   "kpis": [
-    { "label": "Added latency · p50", "detail": "64 concurrent, non-streaming, over direct-to-mock baseline" },
-    { "label": "Added latency · p99", "detail": "Same run; tail latency is the number that matters" },
-    { "label": "Throughput ceiling", "detail": "Open-loop, rate stepped until error rate exceeds 1%" },
+    {
+      "label": "Added latency · p50",
+      "detail": "64 concurrent, non-streaming, over direct-to-mock baseline"
+    },
+    {
+      "label": "Added latency · p99",
+      "detail": "Same run; tail latency is the number that matters"
+    },
+    {
+      "label": "Throughput ceiling",
+      "detail": "Open-loop, rate stepped until error rate exceeds 1%"
+    },
     { "label": "Memory · RSS", "detail": "Steady state under load, payload logging off" }
   ],
   "measured": {

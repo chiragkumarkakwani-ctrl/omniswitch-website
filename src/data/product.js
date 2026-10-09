@@ -1,12 +1,16 @@
 import release from './release.json' with { type: 'json' }
 
-export const A2A_SCOPE = 'SendMessage, SendMessageStream (SSE task events), GetTask, best-effort CancelTask; tasks in memory; no push notifications; no downstream agent proxy.'
+export const A2A_SCOPE =
+  'SendMessage, SendMessageStream (SSE task events), GetTask, best-effort CancelTask; tasks in memory; no push notifications; no downstream agent proxy.'
 export const repoUrl = `https://github.com/${release.repo}`
 export const productDoc = (path) => `${repoUrl}/blob/main/${path}`
 
 export function archiveName(os = 'linux', arch = 'amd64') {
   const template = os === 'windows' ? release.archive_windows_template : release.archive_template
-  return template.replace('{version}', release.version.replace(/^v/, '')).replace('{os}', os).replace('{arch}', arch)
+  return template
+    .replace('{version}', release.version.replace(/^v/, ''))
+    .replace('{os}', os)
+    .replace('{arch}', arch)
 }
 
 export function installCommand() {

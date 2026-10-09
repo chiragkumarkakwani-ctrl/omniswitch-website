@@ -8,7 +8,10 @@
       "home_title": "Core capabilities",
       "summary": "Chat completions, routing, API keys, budgets, local guardrails, and request tracing.",
       "items": [
-        { "text": "OpenAI-compatible chat completions, embeddings, models, and rerank", "detail": "Provider and endpoint scope is documented; validate your workload." },
+        {
+          "text": "OpenAI-compatible chat completions, embeddings, models, and rerank",
+          "detail": "Provider and endpoint scope is documented; validate your workload."
+        },
         { "text": "Fallbacks, weighted routes, retries, timeouts, and CEL conditions" },
         { "text": "Gateway API keys, per-key budgets, and local or Redis request limits" },
         { "text": "Local guardrails, regex rules, exact cache, and metadata-first request logs" },
@@ -21,10 +24,19 @@
       "home_title": "Still evolving",
       "summary": "MCP, A2A, OIDC/CEL authorization, and the Responses and Messages API subsets.",
       "items": [
-        { "text": "Responses and Messages APIs", "detail": "Documented subsets. Tool-capable streaming translation is part of the unreleased v0.2.0 work." },
-        { "text": "Lexical similarity cache", "detail": "Token-frequency cosine similarity, not embeddings." },
+        {
+          "text": "Responses and Messages APIs",
+          "detail": "Documented subsets. Tool-capable streaming translation is part of the unreleased v0.2.0 work."
+        },
+        {
+          "text": "Lexical similarity cache",
+          "detail": "Token-frequency cosine similarity, not embeddings."
+        },
         { "text": "MCP federation and policy-gated calls over HTTP/SSE and stdio" },
-        { "text": "A2A", "detail": "SendMessage, SendMessageStream (SSE task events), GetTask, best-effort CancelTask; tasks in memory; no push notifications; no downstream agent proxy." },
+        {
+          "text": "A2A",
+          "detail": "SendMessage, SendMessageStream (SSE task events), GetTask, best-effort CancelTask; tasks in memory; no push notifications; no downstream agent proxy."
+        },
         { "text": "OIDC workload identity and CEL authorization" }
       ]
     },
@@ -34,10 +46,22 @@
       "home_title": "Know the boundaries",
       "summary": "Single-replica SQLite control plane. Redis shares rate limits, not control state. No dashboard SSO, mTLS, SAML, or SCIM.",
       "items": [
-        { "text": "Multi-replica Postgres deployment", "detail": "Part of the unreleased v0.2.0 work; use one replica with SQLite." },
-        { "text": "Dashboard SSO, admin audit log, and MCP OAuth discovery", "detail": "Deferred beyond v0.2.0." },
-        { "text": "Embedding-based similarity cache and downstream agent proxy", "detail": "Deferred; not current capabilities." },
-        { "text": "Published cross-gateway performance results", "detail": "Pending a measured campaign and reproducible artifacts." }
+        {
+          "text": "Multi-replica Postgres deployment",
+          "detail": "Part of the unreleased v0.2.0 work; use one replica with SQLite."
+        },
+        {
+          "text": "Dashboard SSO, admin audit log, and MCP OAuth discovery",
+          "detail": "Deferred beyond v0.2.0."
+        },
+        {
+          "text": "Embedding-based similarity cache and downstream agent proxy",
+          "detail": "Deferred; not current capabilities."
+        },
+        {
+          "text": "Published cross-gateway performance results",
+          "detail": "Pending a measured campaign and reproducible artifacts."
+        }
       ]
     }
   ]

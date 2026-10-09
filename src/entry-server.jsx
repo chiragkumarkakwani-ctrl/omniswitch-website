@@ -8,7 +8,9 @@ export { routes, notFoundRoute }
 export async function render(path) {
   const route = findRoute(path)
   const { prelude } = await prerender(<App url={path} />, {
-    onError(error) { throw error },
+    onError(error) {
+      throw error
+    },
   })
   return { html: await new Response(prelude).text(), head: renderHead(route), route }
 }

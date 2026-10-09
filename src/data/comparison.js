@@ -15,30 +15,58 @@ export const registerUrl = `https://github.com/${claims.source.repo}/blob/${clai
 export function claimSource(claim) {
   if (!claim?.source_url) return registerUrl
   if (/^https?:\/\//.test(claim.source_url)) return claim.source_url
-  if (claim.gateway === 'omniswitch') return `https://github.com/${claims.source.repo}/blob/${claims.source.commit}/${claim.source_url}`
+  if (claim.gateway === 'omniswitch')
+    return `https://github.com/${claims.source.repo}/blob/${claims.source.commit}/${claim.source_url}`
   return registerUrl
 }
 
 export function latestReview(capabilities, gateways) {
-  const rows = claims.claims.filter((c) => (!capabilities || capabilities.includes(c.capability)) && (!gateways || gateways.includes(c.gateway)))
-  return rows.reduce((date, row) => row.verified_on > date ? row.verified_on : date, '2026-09-11')
+  const rows = claims.claims.filter(
+    (c) =>
+      (!capabilities || capabilities.includes(c.capability)) &&
+      (!gateways || gateways.includes(c.gateway)),
+  )
+  return rows.reduce((date, row) => (row.verified_on > date ? row.verified_on : date), '2026-09-11')
 }
 
 export function displayDate(date) {
-  return new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' }).format(new Date(`${date}T00:00:00Z`))
+  return new Intl.DateTimeFormat('en-GB', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  }).format(new Date(`${date}T00:00:00Z`))
 }
 
 export const hubColumns = [
-  { id: 'omniswitch', name: 'OmniSwitch', footnote: 1, note: `Register ${claims.source.commit.slice(0, 7)}` },
-  ...competitors.map((c) => ({ id: c.primary, name: c.name, footnote: c.footnote, note: c.column_note, slug: c.slug })),
+  {
+    id: 'omniswitch',
+    name: 'OmniSwitch',
+    footnote: 1,
+    note: `Register ${claims.source.commit.slice(0, 7)}`,
+  },
+  ...competitors.map((c) => ({
+    id: c.primary,
+    name: c.name,
+    footnote: c.footnote,
+    note: c.column_note,
+    slug: c.slug,
+  })),
 ]
 
 export function migrationEnabled(competitor) {
-  return !!competitor.migration && getClaim('omniswitch', 'openai-compatible-chat')?.status === 'yes' && getClaim(competitor.primary, 'openai-compatible-chat')?.status === 'yes'
+  return (
+    !!competitor.migration &&
+    getClaim('omniswitch', 'openai-compatible-chat')?.status === 'yes' &&
+    getClaim(competitor.primary, 'openai-compatible-chat')?.status === 'yes'
+  )
 }
 
 export function capabilityGroups() {
   const grouped = new Set(matrix.groups.flatMap((g) => g.capabilities))
   const extra = claims.capabilities.filter((c) => !grouped.has(c.id)).map((c) => c.id)
-  return [...matrix.groups, ...(extra.length ? [{ name: 'Other registered capabilities', capabilities: extra }] : [])]
+  return [
+    ...matrix.groups,
+    ...(extra.length ? [{ name: 'Other registered capabilities', capabilities: extra }] : []),
+  ]
 }

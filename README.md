@@ -16,6 +16,7 @@ npm run dev -- --host 0.0.0.0
 The development server is on port 5173. Keep its `server.host` and `allowedHosts` settings in place for the shared development preview. Development uses `createRoot`; production uses `hydrateRoot`.
 
 ```sh
+npm run format:check     # readable source; use npm run format to apply
 npm test                 # oxlint + Node unit tests
 npm run claims:check     # immutable register, pin, digest, generated prose
 npm run build            # client → SSR → prerender → static checks
@@ -24,7 +25,9 @@ npm run preview          # http://127.0.0.1:4173
 
 `preview` serves the built route files with clean paths, gzip negotiation, immutable hashed assets, a 308 `/comparison` redirect, and a genuine 404 response for unknown paths. It does not use a SPA fallback. Use `-- --host 0.0.0.0 --port 4173` when an external preview proxy needs to reach it.
 
-The static check validates all route files, unique titles/descriptions/canonicals/social images/JSON-LD, one H1, dated WebPages, internal links and anchors, banned marketing language, 1200×630 social images, and a JavaScript budget strictly below 150 KB gzip. It also reruns the claims check. CI runs on push and pull request with Node 24, `npm ci`, `npm test`, the claims check, and the full build.
+The static check validates all route files, unique titles/descriptions/canonicals/social images/JSON-LD, one H1, dated WebPages, internal links and anchors, banned marketing language, 1200×630 social images, and a JavaScript budget strictly below 150 KB gzip. It also reruns the claims check. CI runs on push and pull request with Node 24, `npm ci`, the formatting check, `npm test`, the claims check, and the full build.
+
+Prettier uses 100-column lines, single quotes, and no semicolons. Run `npm run format` before committing new code. Generated claims, social images, lockfiles, and build output are excluded; the generated register block in `CLAIMS.md` is protected by formatter ignore markers. Keep nested JSX readable, with clear component boundaries.
 
 ## Claims: one source, no hand edits
 
@@ -77,7 +80,7 @@ npm run og
 npm run build
 ```
 
-`@resvg/resvg-js` is the only added dependency, and is development-only. Production serves static files from `dist/`; it needs neither Node nor the SSR bundle. Prerendering removes `dist/.server`. `vercel.json` enables clean URLs, no trailing slashes, a permanent `/comparison` → `/compare` redirect, and immutable caching for hashed assets. There is **no catch-all rewrite**. Other hosts must map clean paths to the generated `route/index.html` and serve `404.html` with status 404, not rewrite everything to the homepage.
+The added dependencies, `@resvg/resvg-js` for social images and Prettier for readable source, are development-only. Production serves static files from `dist/`; it needs neither Node nor the SSR bundle. Prerendering removes `dist/.server`. `vercel.json` enables clean URLs, no trailing slashes, a permanent `/comparison` → `/compare` redirect, and immutable caching for hashed assets. There is **no catch-all rewrite**. Other hosts must map clean paths to the generated `route/index.html` and serve `404.html` with status 404, not rewrite everything to the homepage.
 
 Analytics and Speed Insights start after mount only on the production `omniswitch.dev` / `www.omniswitch.dev` hosts. They are suppressed on development and preview hosts. Google Fonts and the old raster console mockup are removed.
 

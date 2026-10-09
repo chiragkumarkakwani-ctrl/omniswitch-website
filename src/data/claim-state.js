@@ -1,6 +1,11 @@
 export const stateLabels = {
-  supported: 'Supported', beta: 'Beta', enterprise: 'Enterprise only',
-  managed: 'Managed only', partial: 'Partial', absent: 'Not available', unknown: 'Not verified',
+  supported: 'Supported',
+  beta: 'Beta',
+  enterprise: 'Enterprise only',
+  managed: 'Managed only',
+  partial: 'Partial',
+  absent: 'Not available',
+  unknown: 'Not verified',
 }
 
 export function claimState(claim, gateway) {

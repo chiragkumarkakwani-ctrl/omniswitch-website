@@ -1,12 +1,42 @@
-const voidTags = new Set(['area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input', 'link', 'meta', 'param', 'source', 'track', 'wbr'])
+const voidTags = new Set([
+  'area',
+  'base',
+  'br',
+  'col',
+  'embed',
+  'hr',
+  'img',
+  'input',
+  'link',
+  'meta',
+  'param',
+  'source',
+  'track',
+  'wbr',
+])
 
 export function decodeHtml(text) {
-  return text.replace(/&#(x[\da-f]+|\d+);/gi, (_, value) => String.fromCodePoint(value[0].toLowerCase() === 'x' ? parseInt(value.slice(1), 16) : Number(value)))
-    .replaceAll('&quot;', '"').replaceAll('&#39;', "'").replaceAll('&apos;', "'").replaceAll('&lt;', '<').replaceAll('&gt;', '>').replaceAll('&amp;', '&')
+  return text
+    .replace(/&#(x[\da-f]+|\d+);/gi, (_, value) =>
+      String.fromCodePoint(
+        value[0].toLowerCase() === 'x' ? parseInt(value.slice(1), 16) : Number(value),
+      ),
+    )
+    .replaceAll('&quot;', '"')
+    .replaceAll('&#39;', "'")
+    .replaceAll('&apos;', "'")
+    .replaceAll('&lt;', '<')
+    .replaceAll('&gt;', '>')
+    .replaceAll('&amp;', '&')
 }
 
 export function attributes(tag) {
-  return Object.fromEntries([...tag.matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map(([, key, value]) => [key, decodeHtml(value)]))
+  return Object.fromEntries(
+    [...tag.matchAll(/([\w:-]+)\s*=\s*"([^"]*)"/g)].map(([, key, value]) => [
+      key,
+      decodeHtml(value),
+    ]),
+  )
 }
 
 export function visibleText(html, { excludeEvidence = false, excludeBenchmark = false } = {}) {
@@ -28,7 +58,11 @@ export function visibleText(html, { excludeEvidence = false, excludeBenchmark = 
         if (entry?.skip) skipped--
       } while (entry && entry.name !== name)
     } else if (!voidTags.has(name) && !token.endsWith('/>')) {
-      const skip = name === 'script' || name === 'style' || (excludeEvidence && token.includes('data-claim-evidence=')) || (excludeBenchmark && token.includes('data-benchmark-evidence='))
+      const skip =
+        name === 'script' ||
+        name === 'style' ||
+        (excludeEvidence && token.includes('data-claim-evidence=')) ||
+        (excludeBenchmark && token.includes('data-benchmark-evidence='))
       stack.push({ name, skip })
       if (skip) skipped++
     }
@@ -49,5 +83,7 @@ export function metaMap(html) {
 }
 
 export function internalLinks(html) {
-  return [...html.matchAll(/<a\b[^>]*>/g)].map(([tag]) => attributes(tag).href).filter((href) => href?.startsWith('/') || href?.startsWith('#'))
+  return [...html.matchAll(/<a\b[^>]*>/g)]
+    .map(([tag]) => attributes(tag).href)
+    .filter((href) => href?.startsWith('/') || href?.startsWith('#'))
 }

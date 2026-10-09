@@ -17,7 +17,8 @@ export default function App({ url = '/' }) {
   }, [])
 
   useEffect(() => {
-    const onPop = () => setCurrentUrl(window.location.pathname + window.location.search + window.location.hash)
+    const onPop = () =>
+      setCurrentUrl(window.location.pathname + window.location.search + window.location.hash)
     window.addEventListener('popstate', onPop)
     document.documentElement.classList.add('js-enabled')
     return () => window.removeEventListener('popstate', onPop)
@@ -29,7 +30,11 @@ export default function App({ url = '/' }) {
     const hash = currentUrl.includes('#') ? currentUrl.slice(currentUrl.indexOf('#') + 1) : ''
     if (hash) {
       let id
-      try { id = decodeURIComponent(hash) } catch { id = hash }
+      try {
+        id = decodeURIComponent(hash)
+      } catch {
+        id = hash
+      }
       document.getElementById(id)?.scrollIntoView()
     } else if (changed) {
       window.scrollTo(0, 0)
@@ -38,5 +43,11 @@ export default function App({ url = '/' }) {
     previousUrl.current = currentUrl
   }, [currentUrl, route])
 
-  return <NavigationContext value={{ navigate, path: normalizePath(currentUrl) }}><Layout><Page {...route.props} /></Layout></NavigationContext>
+  return (
+    <NavigationContext value={{ navigate, path: normalizePath(currentUrl) }}>
+      <Layout>
+        <Page {...route.props} />
+      </Layout>
+    </NavigationContext>
+  )
 }
