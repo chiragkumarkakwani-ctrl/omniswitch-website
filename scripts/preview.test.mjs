@@ -1,6 +1,6 @@
 import test from 'node:test'
 import assert from 'node:assert/strict'
-import { isSafePreviewPath } from './preview-path.mjs'
+import { encodePreviewPath, isSafePreviewPath } from './preview-path.mjs'
 
 test('preview accepts clean decoded route and asset paths', () => {
   for (const path of ['/', '/compare', '/compare/litellm', '/assets/site.js', '/docs/index.html']) {
@@ -22,4 +22,11 @@ test('preview rejects control characters and ambiguous redirect paths before wri
   ]) {
     assert.equal(isSafePreviewPath(path), false, JSON.stringify(path))
   }
+})
+
+test('preview redirect paths encode Unicode and reserved characters without changing slashes', () => {
+  assert.equal(encodePreviewPath('/compare/litellm'), '/compare/litellm')
+  assert.equal(encodePreviewPath('/café/'), '/caf%C3%A9/')
+  assert.equal(encodePreviewPath('/\u2028/'), '/%E2%80%A8/')
+  assert.equal(encodePreviewPath('/question?mark/#part/'), '/question%3Fmark/%23part/')
 })

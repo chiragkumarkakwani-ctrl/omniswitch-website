@@ -1,3 +1,12 @@
 export function isSafePreviewPath(path) {
-  return path.startsWith('/') && !path.startsWith('//') && !/[\u0000-\u001f\u007f\\]/.test(path)
+  if (!path.startsWith('/') || path.startsWith('//') || path.includes('\\')) return false
+  for (const character of path) {
+    const codePoint = character.codePointAt(0)
+    if (codePoint < 32 || codePoint === 127) return false
+  }
+  return true
+}
+
+export function encodePreviewPath(path) {
+  return path.split('/').map(encodeURIComponent).join('/')
 }

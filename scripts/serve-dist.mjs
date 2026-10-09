@@ -4,7 +4,7 @@ import { dirname, extname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseArgs } from 'node:util'
 import { gzipSync } from 'node:zlib'
-import { isSafePreviewPath } from './preview-path.mjs'
+import { encodePreviewPath, isSafePreviewPath } from './preview-path.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '../dist')
 const { values } = parseArgs({
@@ -61,7 +61,7 @@ const server = createServer(async (request, response) => {
   else if (path.endsWith('/index.html')) redirect = path.slice(0, -11) || '/'
   else if (path !== '/' && path.endsWith('/')) redirect = path.replace(/\/+$/, '')
   if (redirect) {
-    response.writeHead(308, { Location: redirect + url.search })
+    response.writeHead(308, { Location: encodePreviewPath(redirect) + url.search })
     response.end()
     return
   }
