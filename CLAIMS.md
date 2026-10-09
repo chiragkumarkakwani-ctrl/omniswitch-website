@@ -54,6 +54,10 @@ The initial register retains known outdated OmniSwitch adapter-count, OpenAPI-to
 
 The old raster console mockup and fabricated social proof are removed. Real console screenshots are a separate deliverable and are not represented by placeholders.
 
+Migration pilots are limited to chat: select the model in the JSON body. The A2A-only
+`x-omniswitch-model` selector is not included in the chat header mapping (`internal/gateway/a2a.go`
+and `internal/gateway/gateway.go` at the pinned foundation; reviewed 2026-10-09).
+
 <!-- prettier-ignore-start -->
 
 <!-- claims:register:start -->

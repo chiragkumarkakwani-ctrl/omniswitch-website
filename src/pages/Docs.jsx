@@ -29,9 +29,9 @@ const sections = [
     'routing',
     'Routing & providers',
     <>
-      Configure <code>providers[]</code> and <code>routes[]</code>. Native adapters and custom
-      OpenAI-compatible endpoints share fallback, retry, timeout, weighted routing, and CEL
-      condition controls.
+      Configure the <code>providers[]</code> list and the <code>routes</code> map of named routes.
+      Native adapters and custom OpenAI-compatible endpoints share fallback, retry, timeout,
+      weighted routing, and CEL condition controls.
     </>,
     'docs/CONFIGURATION.md',
   ],

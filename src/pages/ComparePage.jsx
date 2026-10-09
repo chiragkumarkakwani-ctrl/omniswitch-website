@@ -15,7 +15,6 @@ import {
 const headers = [
   'x-omniswitch-provider',
   'x-omniswitch-config',
-  'x-omniswitch-model',
   'x-omniswitch-trace-id',
   'x-omniswitch-session-id',
   'x-omniswitch-shadow-provider',
@@ -133,6 +132,10 @@ export default function ComparePage({ slug }) {
                 </li>
               ))}
             </ul>
+            <p>
+              Chat selects its model with the JSON <code>model</code> field. The{' '}
+              <code>x-omniswitch-model</code> header is an A2A selector, not a chat model override.
+            </p>
             <p>
               Read{' '}
               <a href={competitor.migration.headers_url}>
