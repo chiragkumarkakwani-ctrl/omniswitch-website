@@ -147,7 +147,7 @@ export default function Matrix({ columns, rows, groups, mobile = true }) {
             <tbody key={group.name || 'capabilities'}>
               {group.name && (
                 <tr className="matrix-group">
-                  <th colSpan={columns.length + 1} scope="colgroup">
+                  <th colSpan={columns.length + 1} scope="rowgroup">
                     {group.name}
                   </th>
                 </tr>
