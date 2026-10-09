@@ -86,6 +86,9 @@ Analytics and Speed Insights start after mount only on the production `omniswitc
 
 ## Manual release gates
 
+See [the local verification report](docs/WEBSITE_VERIFICATION.md) for measured results, browser
+coverage, and the remaining integration/publication gates.
+
 The initial register pin intentionally preserves known source errors: the older native-adapter count, OpenAPI-to-MCP status, A2A detail, Responses/Messages scope, and competitor evidence gaps. Re-sync the corrected release register before publication. Do not turn those source errors into local overrides.
 
 `release.json.published` stays **false** until the tag and its artifacts actually exist. Quickstart and Install show pinned source-evaluation commands, not a fictional beta download. Future download verification uses `checksums.txt.sig` / `checksums.txt.pem`, keyless `cosign verify-blob`, checksum verification, and `gh attestation verify` on the archive. Confirm the workflow identity and signing asset names against the actual release.
