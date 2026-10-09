@@ -10,15 +10,15 @@ Reviewed 2026-10-09 against the release foundation `a8a594b` and the approved v0
 | --- | --- | --- |
 | Self-hosted control plane; keep keys, local guardrails, budgets and request traces in your infrastructure | `README.md`, `internal/gateway/`, `internal/store/` | 2026-10-09 |
 | One Go binary; binary, Docker, Kubernetes | `cmd/gateway/`, `Dockerfile`, `deploy/`, `.goreleaser.yaml` | 2026-10-09 |
-| SQLite built in; Redis optional for shared rate limits (not shared control state) | `internal/store/`, `internal/gateway/redis_rate_limiter.go`, `examples/gateway-config.yaml` | 2026-10-09 |
+| SQLite built in; Redis optional for shared rate limits (not shared control state) | `internal/store/`, `internal/gateway/ratelimit_redis.go`, `examples/gateway-config.yaml` | 2026-10-09 |
 | Apache-2.0; open source; no hosted cloud control plane required | `LICENSE`, `README.md`, `cmd/gateway/` | 2026-10-09 |
-| Example architecture: Authenticate → Guard → Route → Observe | `internal/gateway/`, `internal/guardrail/`, `internal/router/`, `internal/observability/` | 2026-10-09 |
+| Example architecture: Authenticate → Guard → Route → Observe | `internal/gateway/`, `internal/guardrail/`, `internal/router/`, `internal/telemetry/` | 2026-10-09 |
 | Example config `auth: true`, `cache_scope: api_key`, `log_payloads: false` | `examples/gateway-config.yaml` | 2026-10-09 |
 | Hashed gateway API keys, roles, workspace boundaries, budgets and request limits | `internal/store/`, `internal/gateway/middleware.go`, `internal/gateway/gateway.go` | 2026-10-09 |
 | Local PII, injection and secret checks; regex; deny and redact actions | `internal/guardrail/`, `examples/gateway-config.yaml` | 2026-10-09 |
-| SQLite request logs, guardrail events, Prometheus and OTLP | `internal/store/`, `internal/gateway/metrics.go`, `internal/observability/` | 2026-10-09 |
+| SQLite request logs, guardrail events, Prometheus and OTLP | `internal/store/`, `internal/dashboard/dashboard.go`, `internal/telemetry/` | 2026-10-09 |
 | OpenAI-compatible chat client with a gateway `base_url` and Bearer gateway key | `docs/API.md`, `internal/gateway/gateway.go`, `internal/gateway/middleware.go` | 2026-10-09 |
-| Seven native adapters: OpenAI, Anthropic, Google Gemini, Groq, Azure OpenAI, AWS Bedrock, Cohere | `internal/provider/{openai,anthropic,google,groq,azure,bedrock,cohere}.go`, `cmd/gateway/providers.go` | 2026-10-09 |
+| Seven native adapters: OpenAI, Anthropic, Google Gemini, Groq, Azure OpenAI, AWS Bedrock, Cohere | `internal/provider/{openai,anthropic,google,groq,azure,bedrock,cohere}.go`, `cmd/gateway/main.go` at `a8a594b` | 2026-10-09 |
 | Custom OpenAI-compatible endpoints, including Ollama and vLLM; Responses/Messages documented subsets | `internal/provider/custom.go`, `internal/gateway/compat.go`, `docs/API.md` | 2026-10-09 |
 | Fallbacks, retries, per-attempt timeouts, weighted routes, CEL conditions and config hot reload | `internal/router/`, `internal/gatewayconfig/`, `README.md` | 2026-10-09 |
 | MCP federation and tool-call policy over HTTP/SSE and persistent stdio; Beta | `internal/proxy/`, `internal/policy/`, `internal/gatewayconfig/config.go` | 2026-10-09 |
@@ -30,10 +30,11 @@ Reviewed 2026-10-09 against the release foundation `a8a594b` and the approved v0
 
 | Route / prose scope | Source | Verified |
 | --- | --- | --- |
-| `/quickstart`, `/install`: unpublished source-build path, `omniswitch serve`, auth on, health/readiness probes | `src/data/release.json`, `cmd/gateway/cli.go`, `cmd/gateway/routes.go`, `examples/gateway-config.yaml` | 2026-10-09 |
+| `/quickstart`, `/install`: unpublished source-build path, `omniswitch serve`, auth on, health/readiness probes | `src/data/release.json`, `cmd/gateway/cli.go`, `cmd/gateway/main.go` at `a8a594b`, `examples/gateway-config.yaml` | 2026-10-09 |
 | `/install`: future archive names without `v` prefix; verify checksums with cosign and GitHub attestations only when published | `.goreleaser.yaml`, `.github/workflows/release.yml`, `docs/RELEASES.md`, approved v0.2.0 supply-chain plan | 2026-10-09; conditional |
 | `/docs`: authentication, configuration, routing, local guardrails, budgets, provider vault, MCP, A2A, telemetry, deployment | `docs/{CONFIGURATION,API,OBSERVABILITY,DEPLOYMENT}.md`, gateway/router/proxy/store code | 2026-10-09 |
 | `/api`: documented endpoint scope and gateway header names; Responses and Messages remain subsets; future multimodal APIs explicitly unreleased | `docs/API.md`, `internal/gateway/{gateway,embeddings,compat,a2a}.go`, approved release plan | 2026-10-09 |
+| `/api`: `x-omniswitch-model` is an A2A selector; `x-omniswitch-cache` is a HIT/MISS response header; isolation uses `gateway.cache_scope`, not a request header | `internal/gateway/{gateway,a2a}.go`, `internal/gatewayconfig/config.go` | 2026-10-09 |
 | `/security`: supported versions, reporting contact, response targets, out-of-scope choices, hardening; no certification or identity-completeness promise | `SECURITY.md`, `docs/DEPLOYMENT.md`, `docs/KNOWN_LIMITATIONS.md` | 2026-10-09 |
 | `/changelog`: v0.2.0 release scope is unreleased; v0.1.0 date | `CHANGELOG.md`, approved v0.2.0 release plan | 2026-10-09 |
 | `/roadmap`: implemented capabilities derive from OmniSwitch `yes` rows; remaining work labelled planned | Generated register, approved release plan deferred section | Register dates / 2026-10-09 |

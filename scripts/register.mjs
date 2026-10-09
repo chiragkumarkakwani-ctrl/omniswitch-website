@@ -21,7 +21,7 @@ export function parseRegister(text) {
       value = raw.slice(1, -1).replaceAll("''", "'")
     } else {
       raw = raw.replace(/\s+#.*$/, '')
-      if (/^[&*!\[{]/.test(raw)) throw new Error(`Unsupported YAML construct: ${key}`)
+      if (/^[&*![{]/.test(raw)) throw new Error(`Unsupported YAML construct: ${key}`)
       value = key === 'schema_version' ? Number(raw) : raw
     }
     if (Object.hasOwn(target, key)) throw new Error(`Duplicate register field: ${key}`)
@@ -101,7 +101,8 @@ export function validateRegister(register, competitors, matrix) {
     pairs.add(key)
     if (!statuses.has(claim.status)) throw new Error(`Invalid status: ${key}`)
     if (claim.qualifier && !qualifiers.has(claim.qualifier)) throw new Error(`Invalid qualifier: ${key}`)
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(claim.verified_on) || Number.isNaN(Date.parse(claim.verified_on))) throw new Error(`Invalid verified date: ${key}`)
+    const date = new Date(claim.verified_on)
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(claim.verified_on) || Number.isNaN(date.valueOf()) || date.toISOString().slice(0, 10) !== claim.verified_on) throw new Error(`Invalid verified date: ${key}`)
     for (const field of ['detail', 'version', 'source_url']) {
       if (typeof claim[field] !== 'string') throw new Error(`Missing ${field}: ${key}`)
     }

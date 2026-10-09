@@ -5,7 +5,8 @@ export const repoUrl = `https://github.com/${release.repo}`
 export const productDoc = (path) => `${repoUrl}/blob/main/${path}`
 
 export function archiveName(os = 'linux', arch = 'amd64') {
-  return release.archive_template.replace('{version}', release.version.replace(/^v/, '')).replace('{os}', os).replace('{arch}', arch)
+  const template = os === 'windows' ? release.archive_windows_template : release.archive_template
+  return template.replace('{version}', release.version.replace(/^v/, '')).replace('{os}', os).replace('{arch}', arch)
 }
 
 export function installCommand() {

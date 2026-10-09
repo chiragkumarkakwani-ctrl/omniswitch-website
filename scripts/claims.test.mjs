@@ -76,3 +76,16 @@ test('check catches hand edits, stale pins, changed sources and stale generated 
   const changed = makeClaims(fixture, { ...pin, source: { ...pin.source, commit: '7654321' } }, [], matrix)
   assert.throws(() => assertCurrent(actual, changed, pin, fixture, markdown), /pin is stale/)
 })
+
+test('corrected optional ids and qualifiers validate without changing source records', () => {
+  const parsed = parseRegister(fixture)
+  for (const id of ['self-hosted', 'token-rate-limits']) {
+    parsed.capabilities.push({ id, name: id })
+    parsed.claims.push({ ...parsed.claims[0], capability: id, qualifier: 'beta' })
+  }
+  const corrected = { ...matrix, hub_rows: ['chat', 'self-hosted', 'token-rate-limits'], optional_ids: ['self-hosted', 'token-rate-limits'] }
+  assert.deepEqual(validateRegister(parsed, [], corrected), ['omniswitch'])
+  assert.equal(claimState(parsed.claims[1]).label, 'Beta')
+  parsed.claims[0].verified_on = '2026-02-30'
+  assert.throws(() => validateRegister(parsed, [], corrected), /verified date/)
+})
