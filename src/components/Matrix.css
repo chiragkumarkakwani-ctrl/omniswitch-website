@@ -247,6 +247,7 @@
     flex: 0 1 auto;
   }
   .matrix-capability .claim-cell summary {
+    min-width: 44px;
     min-height: 44px;
   }
   .matrix-capability .claim-cell details[open],

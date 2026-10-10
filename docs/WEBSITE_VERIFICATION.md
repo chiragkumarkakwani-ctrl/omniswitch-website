@@ -62,7 +62,7 @@ not a substitute for checking the actual hosting deployment.
   route-heading focus, client metadata/JSON-LD updates, back/forward, and copy feedback pass.
 - Normal animations finish; reduced-motion mode has no running animations. No horizontal
   overflow appeared at the reviewed widths. Mobile navigation/evidence target geometry is at
-  least 44×44 pixels (7 checked controls on home, 68 on compare).
+  least 44×44 pixels (7 checked controls on home, 124 on compare, including capability disclosures).
 - With page JavaScript disabled through CDP, the native menu and comparison evidence/source
   links work. All 56 hub cells match across layouts. Direct home, compare, LiteLLM, quickstart,
   install, docs, API, security, and unknown routes retain readable prerendered content. Copy
